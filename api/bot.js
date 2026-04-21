@@ -28,9 +28,8 @@ const CASH_NUMBER = '01090747536';
 //  Helper Functions
 // ─────────────────────────────────────────
 function generateCode() {
-  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-  let code = 'FM-';
-  for (let i = 0; i < 8; i++) code += chars[Math.floor(Math.random() * chars.length)];
+  let code = '';
+  for (let i = 0; i < 9; i++) code += Math.floor(Math.random() * 10);
   return code;
 }
 
@@ -154,7 +153,7 @@ bot.on('message', async (ctx) => {
 
   // انتظار الرقم
   if (pending.step === 'waiting_phone') {
-    const phone = ctx.message.text?.trim();
+    let phone = ctx.message.text?.trim().replace(/\s+/g, '').replace(/^\+2/, '');
     if (!phone || !/^01[0-9]{9}$/.test(phone)) {
       await ctx.reply('❌ الرقم مش صح، ابعت رقم مصري صحيح زي: 01090747536');
       return;
@@ -240,7 +239,7 @@ bot.on('message', async (ctx) => {
 
   // انتظار رقم التجديد
   if (pending.step === 'waiting_renew_phone') {
-    const phone = ctx.message.text?.trim();
+    let phone = ctx.message.text?.trim().replace(/\s+/g, '').replace(/^\+2/, '');
     if (!phone || !/^01[0-9]{9}$/.test(phone)) {
       await ctx.reply('❌ الرقم مش صح.');
       return;
